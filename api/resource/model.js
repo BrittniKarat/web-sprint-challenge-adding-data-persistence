@@ -10,8 +10,8 @@ function getById(id) {
 }
 
 async function create(newResource) {
-    const [id] = await db("resources").insert(newResource)
-    return getById(id)
+    const [resource_id] = await db("resources").insert(newResource)
+    return getById(resource_id)
 }
 
 module.exports = {

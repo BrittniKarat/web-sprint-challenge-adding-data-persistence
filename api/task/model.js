@@ -15,12 +15,10 @@ async function get() {
 
 async function getById(id) {
      const task = await db("tasks").where("task_id", id).first()
-     const newArr = []
-     task.forEach(each => {
-         each.task_completed === 0 ? newArr.push({...each, task_completed: false}) :
-         newArr.push({...each, task_completed: true})
-     });
-    return newArr
+     let completed = task.project_completed
+     completed === 0 || !completed ? completed = false : completed = true
+     console.log({ ...task, task_completed: completed})
+    return ({ ...task, task_completed: completed})
 }
 
 async function create(newTask) {

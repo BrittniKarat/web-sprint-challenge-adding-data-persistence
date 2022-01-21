@@ -13,12 +13,9 @@ async function get() {
 
 async function getById(id) {
     const project = await db("projects").where("project_id", id).first()
-    const newArr = []
-    project.forEach(each => {
-    each.project_completed === 0 ? newArr.push({...each, project_completed: false}) :
-    newArr.push({...each, project_completed: true})
-});
-    return newArr
+    let completed = project.project_completed
+    completed === 0 || !completed ? completed = false : completed = true
+    return ({ ...project, project_completed: completed})
 }
 
 async function create(newProject) {

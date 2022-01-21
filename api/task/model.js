@@ -1,4 +1,3 @@
-// build your `Task` model here
 const db = require('../../data/dbConfig.js')
 
 async function get() {
@@ -7,17 +6,17 @@ async function get() {
         .select("t.*", "p.project_name", "p.project_description")
     const newArr = []
     tasks.forEach(each => {
-        each.task_completed === 0 ? newArr.push({...each, task_completed: false}) :
+        const taskComplete = each.task_completed
+        taskComplete === 0 || !taskComplete ? newArr.push({...each, task_completed: false}) :
         newArr.push({...each, task_completed: true})
-    });
+    })
     return newArr
 }
 
 async function getById(id) {
-     const task = await db("tasks").where("task_id", id).first()
-     let completed = task.project_completed
-     completed === 0 || !completed ? completed = false : completed = true
-     console.log({ ...task, task_completed: completed})
+    const task = await db("tasks").where("task_id", id).first()
+    let completed = task.project_completed
+    completed === 0 || !completed ? completed = false : completed = true
     return ({ ...task, task_completed: completed})
 }
 
